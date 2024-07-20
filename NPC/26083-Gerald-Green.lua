@@ -1,4 +1,5 @@
---Makes Gerald Green return home after he gets lost. Only checks when players enter Farshire, max once per minute
+-- Makes Gerald Green return home after he gets lost. Only checks when players enter Farshire, max once per minute
+-- Made by mostly nick :)
 
 local NPC_ID = 26083
 local HOME_X = 2484
