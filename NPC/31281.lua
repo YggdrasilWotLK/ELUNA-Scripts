@@ -1,4 +1,5 @@
 --Makes an NPC that should appear dead get "Feign Death Permanent" applied on server start/reload eluna. 
+-- Made by mostly nick :)
 
 local NPC_ID = 31281
 local AURA_ID = 58951
