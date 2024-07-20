@@ -14,7 +14,7 @@ local function CheckPlayerInWater(eventId, delay, repeats, playerGuid)
     if player then
         if not player:HasAura(BOREAN_ANIMAL_BLOOD) then
             player:RemoveEventById(eventId)
-            palyersWithBloodEvent[playerGuid] = nil
+            playersWithBloodEvent[playerGuid] = nil
             --print("Player no longer has the aura, event removed!")
             return
         end
@@ -24,7 +24,7 @@ local function CheckPlayerInWater(eventId, delay, repeats, playerGuid)
             player:CastSpell(player, SPELL_TO_CAST, true)
             player:RemoveAura(BOREAN_ANIMAL_BLOOD)
             player:RemoveEventById(eventId)
-            palyersWithBloodEvent[playerGuid] = nil
+            playersWithBloodEvent[playerGuid] = nil
             print("[Spell]: Borean Tundra animal blood - Water pool spawned!")
         end
     else
@@ -37,11 +37,11 @@ local function OnKillCreature(event, killer, killed)
     if killed:GetCreatureType() == 1 then
     --print("Beast killed!")
         local playerGuid = killer:GetGUIDLow()
-        if not palyersWithBloodEvent[playerGuid] then
+        if not playersWithBloodEvent[playerGuid] then
             local eventId = killer:RegisterEvent(function(eventId, delay, repeats)
                 CheckPlayerInWater(eventId, delay, repeats, playerGuid)
             end, 1000, CHECK_DURATION)
-            palyersWithBloodEvent[playerGuid] = eventId
+            playersWithBloodEvent[playerGuid] = eventId
             --print("Animal killed in Borean Tundra registered!")
         end
     end
@@ -52,14 +52,14 @@ local function OnZoneUpdate(event, player, newZone, newArea)
     if newArea and (mapId == 571 or mapId == 1 or mapId == 0 or mapId == 530) then
         local playerGuid = player:GetGUIDLow()
         --print("Player entered new area in Northrend!")
-		if palyersWithBloodEvent[playerGuid] then 
-			palyersWithBloodEvent[playerGuid] = nil
+		if playersWithBloodEvent[playerGuid] then 
+			playersWithBloodEvent[playerGuid] = nil
 		end
         if player:HasAura(BOREAN_ANIMAL_BLOOD) then
             local eventId = player:RegisterEvent(function(eventId, delay, repeats)
                 CheckPlayerInWater(eventId, delay, repeats, playerGuid)
             end, CHECK_FREQUENCY, CHECK_DURATION)
-            palyersWithBloodEvent[playerGuid] = eventId
+            playersWithBloodEvent[playerGuid] = eventId
         end
     end
 end
