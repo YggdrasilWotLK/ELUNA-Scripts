@@ -1,65 +1,82 @@
 -- This ELUNA module sets the faction of all players in an instance to the same as the first player to enter it.
 -- Written by mostly nick :) for Yggdrasil WoW
 
-local cachedRace = {}
+local cachedFaction = {}
 
 local function OnPlayerMapChange(event, player)
     local instanceId = player:GetInstanceId()
     
     if instanceId and instanceId > 0 then
-        if not cachedRace[instanceId] then
+        if not cachedFaction[instanceId] then
             for _, otherPlayer in pairs(GetPlayersInWorld()) do
                 if otherPlayer:GetInstanceId() == instanceId and player:GetGUIDLow() ~= otherPlayer:GetGUIDLow() then
-                    cachedRace[instanceId] = otherPlayer:GetRace()
-                    if (cachedRace[instanceId] == 1 and player:GetRace() ~= 1) 
-                    or (cachedRace[instanceId] == 3 and player:GetRace() ~= 3) 
-                    or (cachedRace[instanceId] == 4 and player:GetRace() ~= 4) 
-                    or (cachedRace[instanceId] == 7 and player:GetRace() ~= 7) 
-                    or (cachedRace[instanceId] == 11 and player:GetRace() ~= 11) 
-                    then
-                        player:SendAreaTriggerMessage("You have entered an Alliance instance. Your faction has been set to the Alliance.")
-                        
-                    elseif (cachedRace[instanceId] == 2 and player:GetRace() ~= 2)
-                    or (cachedRace[instanceId] == 5 and player:GetRace() ~= 5)
-                    or (cachedRace[instanceId] == 6 and player:GetRace() ~= 6)
-                    or (cachedRace[instanceId] == 8 and player:GetRace() ~= 8)
-                    or (cachedRace[instanceId] == 10 and player:GetRace() ~= 10) 
-                    then
-                        player:SendAreaTriggerMessage("You have entered a Horde instance. Your faction has been set to the Horde.")
-                    end
-                    
-                    player:SetFactionForRace(otherPlayer:GetRace())
+                    cachedFaction[instanceId] = otherPlayer:GetFaction()
+					print(player:GetFaction())
+					if player:GetFaction() ~= cachedFaction[instanceId] then
+						if (cachedFaction[instance] == 2
+						or cachedFaction[instance] == 5
+						or cachedFaction[instance] == 6
+						or cachedFaction[instance] == 9
+						or cachedFaction[instance] == 116
+						or cachedFaction[instance] == 914
+						or cachedFaction[instance] == 1610)
+						and 
+						not (player:GetFaction() == 2
+						or player:GetFaction() == 5 
+						or player:GetFaction() == 6 
+						or player:GetFaction() == 9 
+						or player:GetFaction() == 116
+						or player:GetFaction() == 914 
+						or player:GetFaction() == 1610)
+						then
+							player:SendAreaTriggerMessage("Your have entered an active Horde instance. Your faction has been set to the Horde.")
+						else
+							player:SendAreaTriggerMessage("Your have entered an active Alliance instance. Your faction has been set to the Alliance.")
+						end
+						player:SetFaction(cachedFaction[instanceId])
+					end
                     break
                 end
             end
             
-            if not cachedRace[instanceId] then
-                cachedRace[instanceId] = player:GetRace()
-                --player:SendAreaTriggerMessage("You are the first player in this instance and have set the instance's faction to your own.")
+            if not cachedFaction[instanceId] then
+                cachedFaction[instanceId] = player:GetFaction()
             end
         else
-            
-            if (cachedRace[instanceId] == 1 and player:GetRace() ~= 1) 
-            or (cachedRace[instanceId] == 3 and player:GetRace() ~= 3) 
-            or (cachedRace[instanceId] == 4 and player:GetRace() ~= 4) 
-            or (cachedRace[instanceId] == 7 and player:GetRace() ~= 7) 
-            or (cachedRace[instanceId] == 11 and player:GetRace() ~= 11) 
-            then
-                player:SendAreaTriggerMessage("You have entered an Alliance instance. Your faction has been set to the Alliance.")
-                
-            elseif (cachedRace[instanceId] == 2 and player:GetRace() ~= 2)
-            or (cachedRace[instanceId] == 5 and player:GetRace() ~= 5)
-            or (cachedRace[instanceId] == 6 and player:GetRace() ~= 6)
-            or (cachedRace[instanceId] == 8 and player:GetRace() ~= 8)
-            or (cachedRace[instanceId] == 10 and player:GetRace() ~= 10) 
-            then
-                player:SendAreaTriggerMessage("You have entered a Horde instance. Your faction has been set to the Horde.")
-            end
-            player:SetFactionForRace(cachedRace[instanceId])
+			if player:GetFaction() ~= cachedFaction[instanceId] then
+				if (cachedFaction[instance] == 2
+				or cachedFaction[instance] == 5
+				or cachedFaction[instance] == 6
+				or cachedFaction[instance] == 9
+				or cachedFaction[instance] == 116
+				or cachedFaction[instance] == 914
+				or cachedFaction[instance] == 1610)
+				and 
+				not (player:GetFaction() == 2
+				or player:GetFaction() == 5 
+				or player:GetFaction() == 6 
+				or player:GetFaction() == 9 
+				or player:GetFaction() == 116
+				or player:GetFaction() == 914 
+				or player:GetFaction() == 1610)
+				then
+					player:SendAreaTriggerMessage("Your have entered an active Horde instance. Your faction has been set to the Horde.")
+				else
+					player:SendAreaTriggerMessage("Your have entered an active Alliance instance. Your faction has been set to the Alliance.")
+				end
+				print(player:GetFaction())
+				player:SetFaction(cachedFaction[instanceId])
+			end
         end
 
     else
+		oldFaction = player:GetFaction()
         player:SetFactionForRace(player:GetRace())
+		newFaction = player:GetFaction()
+		--if oldFaction ~= newFaction then
+		--	player:SendAreaTriggerMessage("Your faction ID has been set from ID "..oldFaction.." to "..newFaction)
+		--end
+		print(player:GetFaction())
     end
 end
 
