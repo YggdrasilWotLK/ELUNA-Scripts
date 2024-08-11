@@ -71,7 +71,7 @@ local function StartDialogueSequence(eventId, delay, repeats, brann)
 		creature:SendUnitYell("Look, Lagnus, I consider you a capable man, but my patience is wearing thin. I know that Muradin is here, can you point me to him or not?", 0)
 		creature:SetRooted(false)
 	end, currentDelay, 1)
-    currentDelay = currentDelay + 4000
+    currentDelay = currentDelay + 1000
 
 	magni:RegisterEvent(function(eventId, delay, repeats, creature)
 		creature:SetSpeed(1, 1.6)
@@ -84,7 +84,7 @@ local function StartDialogueSequence(eventId, delay, repeats, brann)
 		local muradin = creature:GetNearestCreature(100, 29593)
         muradin:NearTeleport(muradin:GetX(), muradin:GetY(), muradin:GetZ(), 2.79)
     end, currentDelay, 1)
-    currentDelay = currentDelay + 8000
+    currentDelay = currentDelay + 11000
 
     magni:RegisterEvent(function(eventId, delay, repeats, creature)
         creature:SendUnitYell("Brother! There you are! I can barely believe my eyes... you're alive!", 0)
