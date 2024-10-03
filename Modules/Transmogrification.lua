@@ -46147,7 +46147,7 @@ local itemIconCache = {
 
 local NPC_Entry = 190093
 
-local PrepareDBTable = true -- Set to true if enabling module for the first time
+local PrepareDBTable = false -- Set to true if enabling module for the first time
 
 local RequireGold = 1
 local GoldModifier = 1.0
@@ -46456,15 +46456,16 @@ local function SuitableForTransmogrification(player, transmogrified, transmogrif
         return false
     end
     
-    if fierClass ~= fiedClass then
-        if AllowMixedOffhands then
-            if ((fierClass == ITEM_CLASS_WEAPON and fiedInventoryType == INVTYPE_HELDOFFHAND) or
-               (fiedClass == ITEM_CLASS_WEAPON and fierInventoryType == INVTYPE_HELDOFFHAND)) or
-               ((fierClass == ITEM_CLASS_ARMOR and fierSubClass == ITEM_SUBCLASS_SHIELD and fiedInventoryType == INVTYPE_HELDOFFHAND) or
-               (fiedClass == ITEM_CLASS_ARMOR and fiedSubClass == ITEM_SUBCLASS_SHIELD and fierInventoryType == INVTYPE_HELDOFFHAND)) then
-                return true
-            end
+    if AllowMixedWeaponsAndOffhands then
+        if ((fierClass == ITEM_CLASS_WEAPON and fiedInventoryType == INVTYPE_HELDOFFHAND) or
+           (fiedClass == ITEM_CLASS_WEAPON and fierInventoryType == INVTYPE_HELDOFFHAND)) or
+           ((fierClass == ITEM_CLASS_ARMOR and fierSubClass == ITEM_SUBCLASS_SHIELD and fiedInventoryType == INVTYPE_HELDOFFHAND) or
+           (fiedClass == ITEM_CLASS_ARMOR and fiedSubClass == ITEM_SUBCLASS_SHIELD and fierInventoryType == INVTYPE_HELDOFFHAND)) then
+            return true
         end
+    end
+    
+    if fierClass ~= fiedClass then
         if fierClass ~= ITEM_CLASS_WEAPON and fierClass ~= ITEM_CLASS_ARMOR then
             return false
         end
