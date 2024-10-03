@@ -46147,7 +46147,7 @@ local itemIconCache = {
 
 local NPC_Entry = 190093
 
-local PrepareDBTable = false -- Set to true if enabling module for the first time
+local PrepareDBTable = true -- Set to true if enabling module for the first time
 
 local RequireGold = 1
 local GoldModifier = 1.0
